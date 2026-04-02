@@ -10,13 +10,19 @@ A collection of agent skills for Claude Code.
 
 ## Installation
 
-Add skills to Claude Code using the Skills CLI:
+### Claude Code CLI
+
+```bash
+claude install github:tordrt/skills/codex-code-review
+```
+
+### Skills CLI
 
 ```bash
 npx skills add tordrt/skills@codex-code-review
 ```
 
-To install globally:
+To install globally, add `-g`:
 
 ```bash
 npx skills add tordrt/skills@codex-code-review -g
