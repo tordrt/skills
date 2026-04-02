@@ -13,13 +13,11 @@ A collection of agent skills for Claude Code.
 Add skills to Claude Code using the Skills CLI:
 
 ```bash
-npx skills add <owner>/<repo>@codex-code-review
+npx skills add tordrt/skills@codex-code-review
 ```
 
-Replace `<owner>/<repo>` with the GitHub repository path (e.g. `tordrt/skills`).
-
-Alternatively, add skills globally with:
+To install globally:
 
 ```bash
-npx skills add <owner>/<repo>@codex-code-review -g
+npx skills add tordrt/skills@codex-code-review -g
 ```
