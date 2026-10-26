@@ -10,14 +10,13 @@ description: >-
 Modernize the idea, not just the branch. A clean rebase does not prove that the
 branch still belongs in the product.
 
-`main` in this skill means the base branch: `main`, unless the request
-passes `--base <branch>` or names another base. See `land` for how the base
+`main` in this skill, and `<base>` in its commands, mean the base branch:
+`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
 is chosen, and pass the same base to every skill this one uses.
 
 ## Guardrails
 
-- If `main` tracks a remote, fetch first, and sync `main` the way `land`
-  describes.
+- Fetch first, and sync `main` with its upstream the way `land` describes.
 - Treat existing worktree changes as user-owned. If the branch is checked out
   in another worktree, work there only if it is clean. Otherwise ask.
 - Modernizing authorizes rebasing and updating the branch. It does not
@@ -36,7 +35,7 @@ branch was trying to accomplish before judging its implementation.
 ## Check what changed around it
 
 Inspect commits added to `main` since the branch diverged
-(`git log <merge-base>..main`), and their diffs. Search `main`'s history and
+(`git log <merge-base>..<base>`), and their diffs. Search `main`'s history and
 other branches when commit messages, code paths, or behavior suggest a
 replacement or competing implementation.
 

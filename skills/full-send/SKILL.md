@@ -8,13 +8,13 @@ description: Trigger this if the user says 'full send'.
 If the user triggered this, it's because they are not watching this thread, and
 they want you to complete the work end-to-end autonomously. Your updates and
 your final message go unread until long after you stop. You own the work from
-its current state to landed on `main`.
+its current state until it lands on `main`.
 
 If the user did not explicitly request "full send" in some clear way, do not
 assume full autonomy. If they did, everything below applies.
 
-`main` in this skill means the base branch: `main`, unless the request
-passes `--base <branch>` or names another base. See `land` for how the base
+`main` in this skill, and `<base>` in its commands, mean the base branch:
+`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
 is chosen, and pass the same base to every skill this one uses.
 
 The user grants you permission to:
@@ -50,13 +50,13 @@ one appears.
 
 1. **Finish the change.** Complete the goal from the user's request with the
    smallest change that works. Fix the case that happened, not every case
-   that could. If you are on `main`, create a branch first. Commit as you go.
+   that could. Commit as you go.
 2. **Prove it.** Get proof for every change you made. See "Proof".
 3. **Get feedback.** Use the `review-loop` skill to verify changes. Get proof
    for each fix it leads to.
 4. **Land it** with the `land` skill: sync `main`, rebase, tidy history, and
    recheck on the rebased head.
-5. **Fast-forward `main`** and push it when the land gate passes.
+5. **Push and fast-forward `main`** when the land gate passes.
 6. **Report** in your final message: the commits that landed, the new `main`
    SHA, whether `main` was pushed and CI on it passed, your proof, and each
    decision you made for the user.
@@ -89,8 +89,10 @@ Full confidence means all of these are true on the final `HEAD`:
 - Your proof covers every change in the diff against `main`.
 - `review-loop` agreed on the current behavior diff, and each finding is fixed
   or declined with a written reason.
-- The branch is rebased on the latest `main` (and `origin/main`, if `main`
-  tracks a remote): `git merge-base --is-ancestor main HEAD` succeeds.
+- The branch is rebased on the latest `main`: after a fetch,
+  `git merge-base --is-ancestor <base> HEAD` succeeds, and so does
+  `git merge-base --is-ancestor <upstream> HEAD` if the base has an upstream
+  (see `land`).
 - The repo's checks pass on the rebased head, not just before the rebase.
 - The working tree is clean, review fixes are folded in, and every commit
   message follows `land`.
@@ -111,7 +113,7 @@ Ask only when you cannot continue alone:
 - The next step is outside the grant above: deleting data, touching production,
   changing things outside the repo, deleting a branch or worktree, or
   rewriting any other branch.
-- `main` and `origin/main` have diverged.
+- `main` and its upstream have diverged.
 - The goal is ambiguous in a way that changes the result.
 - Work already on `main` makes this change obsolete.
 

@@ -1,6 +1,6 @@
 # skills
 
-Testing out a a fork of [t3dotgg/tstack](https://github.com/t3dotgg/tstack),
+Testing out a fork of [t3dotgg/tstack](https://github.com/t3dotgg/tstack),
 adapted to how I work:
 
 - **No pull requests.** Work happens on a branch, gets rebased onto `main` and
@@ -12,7 +12,7 @@ adapted to how I work:
 
 | Skill | Say | What it does |
 |---|---|---|
-| `full-send` | "full send" | Takes a change to landed on `main` with nobody watching: proves it, reviews it, rebases it, fast-forwards `main`, pushes it. |
+| `full-send` | "full send" | Takes a change all the way to `main` with nobody watching: proves it, reviews it, rebases it, fast-forwards `main`, pushes it. |
 | `full-stop` | "full stop" | Same as `full-send`, but stops when the branch is ready for you to fast-forward `main`. |
 | `review-loop` | "review loop" | Reviews a change with a fresh Claude subagent in a loop until both agents agree. |
 | `council` | "council" | Gets review from three Claude subagents with different lenses, and loops until they agree. |
@@ -51,6 +51,7 @@ changed since, compare upstream's `7de017b..main`.
 
 ```bash
 git clone https://github.com/tordrt/skills
+mkdir -p ~/.claude/skills
 cp -R skills/skills/* ~/.claude/skills/
 ```
 

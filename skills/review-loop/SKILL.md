@@ -13,8 +13,8 @@ The reviewer has none of your context. That is the point: it reads the code,
 not your reasoning. Brief it with the code and the intent, never with your
 conclusions.
 
-`main` in this skill means the base branch: `main`, unless the request
-passes `--base <branch>` or names another base. See `land` for how the base
+`main` in this skill, and `<base>` in its commands, mean the base branch:
+`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
 is chosen, and pass the same base to every skill this one uses.
 
 Make the most minimal possible changes to appease the reviewer. Be careful of
@@ -38,8 +38,7 @@ Run `git status --short`. Do not stash, discard, or include unrelated
 changes. Limit review to the change paths if they separate cleanly.
 Otherwise stop and ask.
 
-The base is `git merge-base HEAD main`. If `HEAD` is `main`, review
-uncommitted changes only, against `HEAD`.
+The diff base is `git merge-base HEAD <base>`.
 
 The change is base to working tree in those paths, with untracked files.
 Use one diff command all rounds. State intent and out-of-scope in 1-2

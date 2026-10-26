@@ -8,8 +8,8 @@ description: Trigger this if the user says 'full stop'.
 Do the same work as `full-send`, but stop with the branch ready for the user to
 fast-forward `main`. Never move `main`.
 
-`main` in this skill means the base branch: `main`, unless the request
-passes `--base <branch>` or names another base. See `land` for how the base
+`main` in this skill, and `<base>` in its commands, mean the base branch:
+`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
 is chosen, and pass the same base to every skill this one uses.
 
 Read [full-send](../full-send/SKILL.md) and follow its workflow, proof rules,
@@ -24,7 +24,7 @@ apply. The overrides below take precedence.
 
 You may commit, rebase, fold in fixups, fix conflicts, and use
 `--force-with-lease` on this task's branch. You may fast-forward local `main`
-to `origin/main` while syncing, as `land` describes, because that only catches
+to its upstream while syncing, as `land` describes, because that only catches
 `main` up. Never fast-forward `main` to the branch, push `main`, or delegate
 those actions.
 
@@ -35,13 +35,14 @@ the readiness check. Replace its fast-forward and final report steps with a
 handoff. Proof and review must cover the final diff; recheck behavior changes
 and meaningful conflict fixes before handoff.
 
-Right before the handoff, run `git fetch` if `main` tracks a remote, and confirm
-the branch still sits on the latest `main`.
+Right before the handoff, fetch the base's upstream if it has one, and check
+the land gate's rebase item again against both `<base>` and `<upstream>`.
+If either moved, sync and rebase again with `land`.
 
 - **Ready to land:** the land gate passes. Leave `main` where it is.
 - **Blocked:** explain what prevents readiness, what you tried, and what is
   needed. Follow full-send's rules for asking the user.
 
 Report the branch, final head, verdict, proof, reviewer outcome, and remaining
-risks. Give the user the exact fast-forward command from `land` step 6 for this
+risks. Give the user the exact fast-forward command from `land` step 7 for this
 checkout, or say they can ask you to land it.

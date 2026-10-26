@@ -22,9 +22,12 @@ wins:
    "land onto `<branch>`" or "rebase on `<branch>`".
 2. A default base the user's instructions set for this repo.
 
-The base must already exist locally, and it must not be the current branch. If
-either fails, stop and ask. `origin/<base>` below means the base's upstream; if
-the base tracks no remote, skip everything that mentions it.
+The base must already exist locally. If it does not, stop and ask.
+
+`<upstream>` below is the base's upstream, from
+`git rev-parse --abbrev-ref <base>@{upstream}` (for example `origin/main`).
+`<remote>` and `<remote-base>` are its two parts. If the base has no upstream,
+skip everything that mentions them.
 
 Other skills (`full-send`, `full-stop`, `review-loop`, `council`, `modernize`)
 take the same flag and pass it on to this one.
@@ -32,31 +35,35 @@ take the same flag and pass it on to this one.
 ## 1. Check the branch
 
 Run `git status`. If uncommitted changes belong to this work, commit them. If
-it is unclear whether they do, ask. If `HEAD` is `<base>`, there is nothing to
-land.
+it is unclear whether they do, ask. If `HEAD` is `<base>`, stop: there is
+nothing to land.
+
+Record the branch head. If the branch has an upstream of its own, record
+`git rev-parse @{upstream}` now, before any fetch. That SHA is the lease for
+step 5.
 
 Run `git worktree list` and note whether `<base>` is checked out in a non-bare
-worktree. Step 6 depends on it.
+worktree. Steps 2 and 7 depend on it.
 
 ## 2. Sync the base
 
-If `<base>` tracks a remote, run `git fetch origin`. If `origin/<base>` is
-ahead of `<base>`, fast-forward `<base>` first:
+Run `git fetch <remote>`. If `<upstream>` is ahead of `<base>`, fast-forward
+`<base>` first:
 
 - `<base>` not checked out in a non-bare worktree:
-  `git fetch origin <base>:<base>`.
+  `git fetch <remote> <remote-base>:<base>`.
 - `<base>` checked out at `<path>`:
-  `git -C <path> merge --ff-only origin/<base>`, only if that worktree is
-  clean. If it is dirty, ask.
+  `git -C <path> merge --ff-only <upstream>`, only if that worktree is clean.
+  If it is dirty, ask.
 
-If `<base>` and `origin/<base>` have diverged, stop and ask. Never pick a side.
+If `<base>` and `<upstream>` have diverged, stop and ask. Never pick a side.
 
 ## 3. Rebase
 
-Record the branch head and its merge base with `<base>`, then run
-`git rebase <base>`. Resolve each conflict by the branch's intent and the
-base's newer invariants. If a conflict reveals a product or architecture
-disagreement, stop and ask instead of guessing.
+Record the branch's merge base with `<base>`, then run `git rebase <base>`.
+Resolve each conflict by the branch's intent and the base's newer invariants.
+If a conflict reveals a product or architecture disagreement, stop and ask
+instead of guessing.
 
 After the rebase, compare with
 `git range-diff <old-merge-base>..<old-head> <base>..HEAD`. Confirm that no
@@ -69,10 +76,10 @@ Make the commits what `<base>` should keep: one commit per coherent change,
 each one building and passing checks on its own when practical.
 
 Fold review fixes into the commit they fix. Make them with
-`git commit --fixup=<sha>`, then run
-`GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash <base>`. Do not squash
-unrelated changes together. Do not reorder commits in a way that changes what
-each commit means.
+`git commit --fixup=<sha>`, then run `git rebase --autosquash <base>`. On git
+older than 2.44, use `GIT_SEQUENCE_EDITOR=true git rebase -i --autosquash <base>`
+instead. Do not squash unrelated changes together. Do not reorder commits in a
+way that changes what each commit means.
 
 ### Commit messages
 
@@ -114,35 +121,39 @@ A rebase can break code without a conflict. Run the repo's checks on the final
 `<base>` since the old merge base touch this branch's files, prove the
 affected behavior again.
 
-If the branch also exists on the remote, update it with
-`git push --force-with-lease=<branch>:<old-remote-head>`. Never use a plain
-`--force`.
+If the branch has an upstream of its own, update it with
+`git push --force-with-lease=<remote-branch>:<sha-from-step-1> <remote> HEAD:<remote-branch>`.
+Never use a plain `--force`. If the lease fails, someone else pushed to the
+branch: fetch and reassess rather than overwriting their work.
 
-## 6. Fast-forward the base
+## 6. Push
 
-Do this only when the user asked to land, or under `full-send`. Otherwise stop
-here and report that the branch is ready.
+Do steps 6 and 7 only when the user asked to land, or under `full-send`.
+Otherwise stop here and report that the branch is ready.
 
-First confirm `git merge-base --is-ancestor <base> HEAD` succeeds. Then:
+Push before you move the local base, so a rejected push leaves nothing to undo.
+Push only when the user asked to push, the request was `full-send`, or the
+user's instructions say landing includes pushing. Otherwise skip to step 7.
+
+First confirm `git merge-base --is-ancestor <upstream> HEAD` succeeds. Then
+run a plain `git push <remote> HEAD:<remote-base>`. The remote accepts only a
+fast-forward. If it rejects the push, `<upstream>` moved: go back to step 2.
+
+## 7. Fast-forward the base
+
+Confirm `git merge-base --is-ancestor <base> HEAD` succeeds. Then:
 
 - `<base>` not checked out in a non-bare worktree: `git fetch . HEAD:<base>`.
 - `<base>` checked out at `<path>`: `git -C <path> merge --ff-only <branch>`,
   only if that worktree is clean. If it is dirty, ask.
 
-Both refuse anything that is not a fast-forward. If one refuses, `<base>`
-moved: go back to step 2. Never use `git branch -f`, `git update-ref`, or
-`git reset` on `<base>`.
+Both refuse anything that is not a fast-forward. If one refuses before a push,
+`<base>` moved: go back to step 2. If one refuses after a push, stop and ask.
+Never use `git branch -f`, `git update-ref`, or `git reset` on `<base>`.
 
-## 7. Push
-
-Push `<base>` only when the user asked to push, the request was `full-send`,
-or the user's instructions say landing includes pushing. Use a plain
-`git push origin <base>`. If the push is rejected, `origin/<base>` moved: go
-back to step 2.
-
-If the repo runs CI on `<base>`, watch the run for the pushed commit with
-`gh run watch`. If it fails, report it. Fix forward on a new branch. Never
-revert or rewrite `<base>` without asking.
+If you pushed and the repo runs CI on `<base>`, watch the run for the pushed
+commit with `gh run watch`. If it fails, report it. Fix forward on a new
+branch. Never revert or rewrite `<base>` without asking.
 
 ## 8. Report
 

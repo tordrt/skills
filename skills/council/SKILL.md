@@ -18,8 +18,8 @@ the strongest model available for all three, with these lenses:
 - **Scope:** does it solve the user's actual problem, and what in the diff is
   not needed for that.
 
-`main` in this skill means the base branch: `main`, unless the request
-passes `--base <branch>` or names another base. See `land` for how the base
+`main` in this skill, and `<base>` in its commands, mean the base branch:
+`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
 is chosen, and pass the same base to every skill this one uses.
 
 Start all three with the Agent tool in one message, so they run in parallel.
@@ -27,7 +27,7 @@ Wait for all three completion notices before you summarize. If one fails,
 report it instead of filling in its part.
 
 Give each delegate the request, the relevant context, and its lens. For a code
-review, point them at the diff (`git diff $(git merge-base HEAD main)`, plus
+review, point them at the diff (`git diff $(git merge-base HEAD <base>)`, plus
 untracked files) and the intent. Give them the code, not your conclusions. For
 review or feedback, keep their work read-only: no edits, commits, or subagents.
 Collect their responses and summarize the useful findings, disagreements, and
