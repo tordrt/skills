@@ -10,6 +10,10 @@ description: >-
 Modernize the idea, not just the branch. A clean rebase does not prove that the
 branch still belongs in the product.
 
+`main` in this skill means the base branch: `main`, unless the request
+passes `--base <branch>` or names another base. See `land` for how the base
+is chosen, and pass the same base to every skill this one uses.
+
 ## Guardrails
 
 - If `main` tracks a remote, fetch first, and sync `main` the way `land`

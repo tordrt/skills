@@ -19,6 +19,11 @@ adapted to how I work:
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. |
 | `modernize` | "modernize" | Rebases an old branch and decides if it should still exist. |
 
+Every skill targets `main` by default. To use another base branch, pass
+`--base <branch>` (for example `/land --base release`, or "full send --base
+dev"), or just say "land onto `dev`". The skills pass it on to each other. To
+change the default for one repo, set it in that repo's `CLAUDE.md`.
+
 Some skills call others. Install the ones they need too:
 
 - `full-send` uses `review-loop` and `land`.

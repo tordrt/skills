@@ -13,6 +13,10 @@ The reviewer has none of your context. That is the point: it reads the code,
 not your reasoning. Brief it with the code and the intent, never with your
 conclusions.
 
+`main` in this skill means the base branch: `main`, unless the request
+passes `--base <branch>` or names another base. See `land` for how the base
+is chosen, and pass the same base to every skill this one uses.
+
 Make the most minimal possible changes to appease the reviewer. Be careful of
 scope creep and don't be scared to push back.
 

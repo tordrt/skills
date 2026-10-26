@@ -18,6 +18,10 @@ the strongest model available for all three, with these lenses:
 - **Scope:** does it solve the user's actual problem, and what in the diff is
   not needed for that.
 
+`main` in this skill means the base branch: `main`, unless the request
+passes `--base <branch>` or names another base. See `land` for how the base
+is chosen, and pass the same base to every skill this one uses.
+
 Start all three with the Agent tool in one message, so they run in parallel.
 Wait for all three completion notices before you summarize. If one fails,
 report it instead of filling in its part.

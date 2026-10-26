@@ -13,6 +13,10 @@ its current state to landed on `main`.
 If the user did not explicitly request "full send" in some clear way, do not
 assume full autonomy. If they did, everything below applies.
 
+`main` in this skill means the base branch: `main`, unless the request
+passes `--base <branch>` or names another base. See `land` for how the base
+is chosen, and pass the same base to every skill this one uses.
+
 The user grants you permission to:
 
 - Rewrite this task's branch: rebase it, fold in fixups, and update its remote

@@ -8,6 +8,10 @@ description: Trigger this if the user says 'full stop'.
 Do the same work as `full-send`, but stop with the branch ready for the user to
 fast-forward `main`. Never move `main`.
 
+`main` in this skill means the base branch: `main`, unless the request
+passes `--base <branch>` or names another base. See `land` for how the base
+is chosen, and pass the same base to every skill this one uses.
+
 Read [full-send](../full-send/SKILL.md) and follow its workflow, proof rules,
 and review steps. An explicit "full stop" request authorizes that work without
 a separate "full send" request. That includes full-send's testing permission.
