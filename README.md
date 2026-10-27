@@ -14,6 +14,7 @@ adapted to how I work:
 |---|---|---|
 | `full-send` | "full send" | Takes a change all the way to `main` with nobody watching: proves it, reviews it, rebases it, fast-forwards `main`, pushes it. |
 | `full-stop` | "full stop" | Same as `full-send`, but stops when the branch is ready for you to fast-forward `main`. |
+| `implement` | `/implement <what to build>` | Builds what you describe, reviews it with `/code-review`, shows before/after screenshots (or other proof), rebases and tidies history, and asks before fast-forwarding `main`. |
 | `review-loop` | "review loop" | Reviews a change with a fresh Claude subagent in a loop until both agents agree. |
 | `council` | "council" | Gets review from three Claude subagents with different lenses, and loops until they agree. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. |
@@ -28,6 +29,7 @@ Some skills call others. Install the ones they need too:
 
 - `full-send` uses `review-loop` and `land`.
 - `full-stop` uses `full-send` and `land`.
+- `implement` uses `land`, plus Claude Code's built-in `code-review` skill.
 - `review-loop`, `council`, and `modernize` refer to `land`.
 
 ## Changes from upstream
