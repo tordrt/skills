@@ -12,25 +12,21 @@ adapted to how I work:
 
 | Skill | Say | What it does |
 |---|---|---|
-| `full-send` | "full send" | Takes a change all the way to `main` with nobody watching: proves it, reviews it, rebases it, fast-forwards `main`, pushes it. |
-| `full-stop` | "full stop" | Same as `full-send`, but stops when the branch is ready for you to fast-forward `main`. |
 | `implement` | `/implement <what to build>` | Builds what you describe, reviews it with `/code-review`, shows before/after screenshots (or other proof), rebases and tidies history, and asks before fast-forwarding `main`. |
 | `review-loop` | "review loop" | Reviews a change with a fresh Claude subagent in a loop until both agents agree. |
-| `council` | "council" | Gets review from three Claude subagents with different lenses, and loops until they agree. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. |
 | `modernize` | "modernize" | Rebases an old branch and decides if it should still exist. |
 
 Every skill targets `main` by default. To use another base branch, pass
-`--base <branch>` (for example `/land --base release`, or "full send --base
-dev"), or just say "land onto `dev`". The skills pass it on to each other. To
-change the default for one repo, set it in that repo's `CLAUDE.md`.
+`--base <branch>` (for example `/land --base release`), or just say "land onto
+`dev`". The skills pass it on to each other. To change the default for one
+repo, set it in that repo's `CLAUDE.md`.
 
 Some skills call others. Install the ones they need too:
 
-- `full-send` uses `review-loop` and `land`.
-- `full-stop` uses `full-send` and `land`.
-- `implement` uses `land`, plus Claude Code's built-in `code-review` skill.
-- `review-loop`, `council`, and `modernize` refer to `land`.
+- `implement` uses `land`, plus your agent's built-in code review
+  (`/code-review` in Claude Code).
+- `review-loop` and `modernize` refer to `land`.
 
 ## Changes from upstream
 
@@ -40,9 +36,9 @@ changed since, compare upstream's `7de017b..main`.
 
 | Upstream | Here |
 |---|---|
-| `full-send`, `full-stop` | Kept. The merge gate is now a land gate, and merging is a fast-forward of `main`. |
+| `full-send`, `full-stop` | Dropped. `implement` does the same work, and waits for your go-ahead before fast-forwarding `main`. |
 | `sol-loop` | Now `review-loop`: the same loop, with a Claude subagent instead of GPT Sol. |
-| `council` | Kept. Three Claude subagents with different lenses instead of three providers. Scores go in the reply and the commit body, not a PR description. |
+| `council` | Dropped. |
 | `file-pr` | Folded into `land` as commit message rules, since commits land as they are. |
 | `babysit-pr` | Its rebase and merge rules are in `land`. PR, CI, and review bot watching is dropped, along with `pr-wait`. |
 | `modernize` | Kept, for branches instead of PRs. `CLOSE` is now `DROP`. |
@@ -66,8 +62,8 @@ cp -R skills/skills/* ~/.claude/skills/
 
 ## Make them yours
 
-Put personal settings, like which models or lenses sit on the council, or
-whether landing should push `main`, in your `CLAUDE.md`, so you can update the
+Put personal settings, like which model reviews in `review-loop`, or whether
+landing should push `main`, in your `CLAUDE.md`, so you can update the
 skills without losing them.
 
 ## License

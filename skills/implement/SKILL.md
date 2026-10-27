@@ -23,9 +23,9 @@ screenshots or recordings for proof.
    what it touches. For a bug, reproduce it.
 2. **Implement** the request on a task branch. Ask only if it is ambiguous in a
    way that changes the result.
-3. **Review** the branch's diff against `main` with the built-in `code-review`
-   skill. Fix the findings that are real and should be fixed before this
-   ships. Note the rest, and why.
+3. **Review** the branch's diff against `main` with your built-in code review
+   (in Claude Code, `/code-review`). Fix the findings that are real and should
+   be fixed before this ships. Note the rest, and why.
 4. **Prove it.** Run the tests, typecheck, lint, and build. For a visual change,
    capture the after, paired with the before. Otherwise, verify that it works.
 5. **Rebase and tidy** with `land`, through its recheck step. Squash commits

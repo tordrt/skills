@@ -29,8 +29,8 @@ The base must already exist locally. If it does not, stop and ask.
 `<remote>` and `<remote-base>` are its two parts. If the base has no upstream,
 skip everything that mentions them.
 
-Other skills (`full-send`, `full-stop`, `implement`, `review-loop`, `council`,
-`modernize`) take the same flag and pass it on to this one.
+Other skills (`implement`, `review-loop`, `modernize`) take the same flag and
+pass it on to this one.
 
 ## 1. Check the branch
 
@@ -106,9 +106,8 @@ GOOD
 
 > ✅ My "new worktree" default was ignored when starting new threads on existing worktrees. Super unintuitive. Now your preferences always apply.
 
-If `review-loop` or `council` reviewed the change, add one line to the body of
-the commit it covers, for example
-`Reviewed with council: 2 rounds (9/10, 9/10, 10/10).` Keep the co-author
+If `review-loop` reviewed the change, add one line to the body of the commit it
+covers, for example `Reviewed with review-loop: 2 rounds.` Keep the co-author
 trailer your harness adds. Do not add a second attribution.
 
 Check every message for secrets and private details.
@@ -128,12 +127,12 @@ branch: fetch and reassess rather than overwriting their work.
 
 ## 6. Push
 
-Do steps 6 and 7 only when the user asked to land, or under `full-send`.
+Do steps 6 and 7 only when the user asked to land.
 Otherwise stop here and report that the branch is ready.
 
 Push before you move the local base, so a rejected push leaves nothing to undo.
-Push only when the user asked to push, the request was `full-send`, or the
-user's instructions say landing includes pushing. Otherwise skip to step 7.
+Push only when the user asked to push, or the user's instructions say landing
+includes pushing. Otherwise skip to step 7.
 
 First confirm `git merge-base --is-ancestor <upstream> HEAD` succeeds. Then
 run a plain `git push <remote> HEAD:<remote-base>`. The remote accepts only a
