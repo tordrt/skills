@@ -16,6 +16,7 @@ adapted to how I work:
 | `ready` | `/ready` | Reviews the current branch with `/code-review` (up to 3 rounds), fixes what should be fixed, rebases and tidies, and captures before/after proof. Stops there, so you verify and land it yourself. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. |
 | `browser` | (automatic) | Lets agents drive a headless browser live with `playwright-cli`, or script it with Playwright, for screenshots and clicking through a flow. |
+| `desktop` | (automatic) | Lets agents run GUI apps on a virtual desktop you watch in Komla, with `komla desktop run`. |
 | `modernize` | "modernize" | Rebases an old branch and decides if it should still exist. |
 
 Every skill targets `main` by default. To use another base branch, pass
@@ -28,6 +29,7 @@ Some skills call others. Install the ones they need too:
 - `implement` uses `ready`.
 - `ready` uses `land`, plus your agent's built-in code review
   (`/code-review` in Claude Code).
+- `desktop` uses `browser`.
 - `modernize` refers to `land`.
 
 ## Changes from upstream
@@ -64,6 +66,8 @@ this repo dropped, such as `~/.claude/skills/review-loop`.
   bare-repo worktree setups.
 - For `browser`: Playwright and `@playwright/cli` installed globally, with
   their browsers (`npm i -g playwright @playwright/cli && npx playwright install --with-deps chromium && playwright-cli install-browser chrome-for-testing`).
+- For `desktop`: Komla (formerly Baton), with `tigervnc-standalone-server`,
+  `novnc` and `websockify` on the machine.
 - Optional: an authenticated [GitHub CLI](https://cli.github.com) (`gh`), so
   `land` can watch CI on `main` after a push.
 
