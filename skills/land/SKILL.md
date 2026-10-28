@@ -29,7 +29,7 @@ The base must already exist locally. If it does not, stop and ask.
 `<remote>` and `<remote-base>` are its two parts. If the base has no upstream,
 skip everything that mentions them.
 
-Other skills (`implement`, `review-loop`, `modernize`) take the same flag and
+Other skills (`implement`, `ready`, `modernize`) take the same flag and
 pass it on to this one.
 
 ## 1. Check the branch
@@ -106,9 +106,7 @@ GOOD
 
 > ✅ My "new worktree" default was ignored when starting new threads on existing worktrees. Super unintuitive. Now your preferences always apply.
 
-If `review-loop` reviewed the change, add one line to the body of the commit it
-covers, for example `Reviewed with review-loop: 2 rounds.` Keep the co-author
-trailer your harness adds. Do not add a second attribution.
+Keep the co-author trailer your harness adds. Do not add a second attribution.
 
 Check every message for secrets and private details.
 
