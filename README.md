@@ -15,6 +15,7 @@ adapted to how I work:
 | `implement` | `/implement <what to build>` | Builds what you describe, then runs `ready` on it. |
 | `ready` | `/ready` | Reviews the current branch with `/code-review` (up to 3 rounds), fixes what should be fixed, rebases and tidies, and captures before/after proof. Stops there, so you verify and land it yourself. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. |
+| `browser` | (automatic) | Lets agents drive a headless browser live with `playwright-cli`, or script it with Playwright, for screenshots and clicking through a flow. |
 | `modernize` | "modernize" | Rebases an old branch and decides if it should still exist. |
 
 Every skill targets `main` by default. To use another base branch, pass
@@ -61,6 +62,8 @@ this repo dropped, such as `~/.claude/skills/review-loop`.
 
 - `git`. `land` handles a `main` that is checked out in another worktree, and
   bare-repo worktree setups.
+- For `browser`: Playwright and `@playwright/cli` installed globally, with
+  their browsers (`npm i -g playwright @playwright/cli && npx playwright install --with-deps chromium && playwright-cli install-browser chrome-for-testing`).
 - Optional: an authenticated [GitHub CLI](https://cli.github.com) (`gh`), so
   `land` can watch CI on `main` after a push.
 
