@@ -128,9 +128,9 @@ branch: fetch and reassess rather than overwriting their work.
 Do steps 6 and 7 only when the user asked to land.
 Otherwise stop here and report that the branch is ready.
 
-Push before you move the local base, so a rejected push leaves nothing to undo.
-Push only when the user asked to push, or the user's instructions say landing
-includes pushing. Otherwise skip to step 7.
+Landing includes pushing `<base>`. Push before you move the local base, so a
+rejected push leaves nothing to undo. Skip this step only if `<base>` has no
+upstream or the user said not to push.
 
 First confirm `git merge-base --is-ancestor <upstream> HEAD` succeeds. Then
 run a plain `git push <remote> HEAD:<remote-base>`. The remote accepts only a

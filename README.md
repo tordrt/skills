@@ -75,8 +75,9 @@ this repo dropped, such as `~/.claude/skills/review-loop`.
 
 ## Make them yours
 
-Put personal settings, like whether landing should push `main`, in your
-`CLAUDE.md`, so you can update the skills without losing them.
+Put personal settings, like a different default base branch or not pushing
+when landing, in your `CLAUDE.md`, so you can update the skills without
+losing them.
 
 ## License
 
