@@ -15,12 +15,13 @@ Never create a merge commit, never rewrite `<base>`, and never force-push
 
 ## Base branch
 
-`<base>` below is `main` unless one of these names another branch, first match
-wins:
+`<base>` below is the first of these that names a branch:
 
 1. `--base <branch>` in the request or skill arguments, or plain words like
    "land onto `<branch>`" or "rebase on `<branch>`".
-2. A default base the user's instructions set for this repo.
+2. The remote's default branch
+   (`git symbolic-ref --short refs/remotes/origin/HEAD`, without the
+   `origin/`), or else `main` or `master`, whichever exists locally.
 
 The base must already exist locally. If it does not, stop and ask.
 

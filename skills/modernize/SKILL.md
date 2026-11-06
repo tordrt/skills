@@ -10,9 +10,8 @@ description: >-
 Modernize the idea, not just the branch. A clean rebase does not prove that the
 branch still belongs in the product.
 
-`main` in this skill, and `<base>` in its commands, mean the base branch:
-`main`, unless the request passes `--base <branch>` or names another base. See `land` for how the base
-is chosen, and pass the same base to every skill this one uses.
+`main` in this skill, and `<base>` in its commands, mean the base branch,
+chosen as `land` describes. Pass the same base to every skill this one uses.
 
 ## Guardrails
 

@@ -20,10 +20,10 @@ adapted to how I work:
 | `electron` | (automatic) | Lets agents run an Electron app under `xvfb-run`, or on a desktop you watch, to test it, screenshot it, or drive it live. |
 | `modernize` | "modernize" | Rebases an old branch and decides if it should still exist. |
 
-Every skill targets `main` by default. To use another base branch, pass
-`--base <branch>` (for example `/land --base release`), or just say "land onto
-`dev`". The skills pass it on to each other. To change the default for one
-repo, set it in that repo's `CLAUDE.md`.
+Every skill targets the repo's default branch (`main` or `master`). To use
+another base branch, pass `--base <branch>` (for example
+`/land --base release`), or just say "land onto `dev`". The skills pass it on
+to each other.
 
 Some skills call others. Install the ones they need too:
 
@@ -75,9 +75,8 @@ this repo dropped, such as `~/.claude/skills/review-loop`.
 
 ## Make them yours
 
-Put personal settings, like a different default base branch or not pushing
-when landing, in your `CLAUDE.md`, so you can update the skills without
-losing them.
+Put personal settings, like not pushing when landing, in your `CLAUDE.md`, so
+you can update the skills without losing them.
 
 ## License
 
