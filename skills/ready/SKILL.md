@@ -40,31 +40,14 @@ screenshots for proof.
 4. **Rebase and tidy** with `land`, through its recheck step. Note the review
    in the body of the commit it covers, such as
    `Reviewed with /code-review (medium): 2 rounds.`
-5. **Prove it** on the final head: before/after screenshots for visual changes
-   (run `<base>` from a temporary worktree for the before, and remove it
-   once the pair is final or before going back to step 4), the bug
-   reproduced and then fixed, or otherwise a run showing it works.
-
-   For visual changes, mark what changed so the user doesn't have to hunt
-   for it. Save every image outside the repo, such as in the scratchpad.
-   - Take each pair at the same viewport, size, and state, with the page
-     settled: fonts loaded, animations off, and clocks or other live content
-     frozen or masked.
-   - Run `mark-diff.sh <before.png> <after.png> <out-dir>` from this skill's
-     directory. It needs ImageMagick 7. It pads the pair to one canvas,
-     boxes and numbers each changed region on both padded copies, writes a
-     side-by-side, keeps the unmarked copies, and prints each box. Its header
-     lists the knobs for noise and for merging nearby changes.
-   - When content only moved because something above it was added or
-     removed, the diff boxes all of it. Then box the added or removed part
-     and say what moved, instead of handing over a box around everything
-     that shifted.
+5. **Prove it** on the final head: before/after screenshots for visual changes,
+   taken with `before-after` against `<base>`, the bug reproduced and then
+   fixed, or otherwise a run showing it works.
 
    If the proof fails, or the diff shows a change the branch made that it
    shouldn't have, fix it and repeat from step 4. A difference the branch
-   didn't cause, such as rendering noise, means retaking the pair, not
-   changing code. After two retakes, raise the noise threshold or mask the
-   region, and report it.
+   didn't cause, such as rendering noise, means retaking the pair, as
+   `before-after` describes, not changing code.
 6. **Hand off.** Report the branch and its commits, the review level and
    rounds, what review fixed, what was pre-existing and what you declined, the
    checks, paths to the screenshots (marked and unmarked), what each box

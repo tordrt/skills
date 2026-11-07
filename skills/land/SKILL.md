@@ -30,8 +30,8 @@ The base must already exist locally. If it does not, stop and ask.
 `<remote>` and `<remote-base>` are its two parts. If the base has no upstream,
 skip everything that mentions them.
 
-Other skills (`implement`, `ready`, `modernize`) take the same flag and
-pass it on to this one.
+Other skills (`implement`, `ready`, `before-after`, `modernize`) take the
+same flag and pass it on to this one.
 
 ## 1. Check the branch
 

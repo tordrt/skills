@@ -5,8 +5,8 @@
 #
 # Writes to <out-dir>:
 #   before.png, after.png    both images, padded to the same canvas, unmarked
-#   before-marked.png,       the same, with a numbered box around each
-#   after-marked.png         changed region
+#   before-marked.png,       the same, with a box around each changed
+#   after-marked.png         region, numbered when there is more than one
 #   side-by-side.png         the two marked images next to each other
 #   mask.png                 white where pixels changed
 # Prints one line per box, "<n> <WxH+X+Y>", top to bottom. Prints nothing
@@ -66,6 +66,10 @@ boxes=$(
   awk -F'[x+]' '{ print $4, $3, $0 }' | sort -n -k1,1 -k2,2 | awk '{ print $3 }'
 )
 
+# Number the boxes only when there are several, since a lone box needs no
+# label to tell it apart.
+count=$(grep -c . <<<"$boxes" || true)
+
 draw=() n=0
 while read -r box; do
   [ -n "$box" ] || continue
@@ -73,10 +77,12 @@ while read -r box; do
   IFS='x+' read -r bw bh bx by <<<"$box"
   draw+=(-stroke "$color" -strokewidth 3 -fill none
          -draw "rectangle $bx,$by $((bx + bw - 1)),$((by + bh - 1))")
-  # Number above the box's top-left corner, or inside it at the top edge.
-  ty=$(( by > 22 ? by - 4 : by + 20 ))
-  draw+=(-stroke none -fill "$color" -pointsize 20
-         -annotate "+$((bx + 2))+$ty" "$n")
+  if [ "$count" -gt 1 ]; then
+    # Number above the box's top-left corner, or inside it at the top edge.
+    ty=$(( by > 22 ? by - 4 : by + 20 ))
+    draw+=(-stroke none -fill "$color" -pointsize 20
+           -annotate "+$((bx + 2))+$ty" "$n")
+  fi
   echo "$n $box"
 done <<<"$boxes"
 

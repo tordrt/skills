@@ -13,7 +13,8 @@ adapted to how I work:
 | Skill | Say | What it does |
 |---|---|---|
 | `implement` | `/implement <what to build>` | Builds what you describe, then runs `ready` on it. |
-| `ready` | `/ready` | Reviews the current branch with `/code-review` at a depth matched to its risk (up to 3 rounds), fixes what the branch got wrong, rebases and tidies, and captures before/after proof, with the differences boxed and numbered on comparison screenshots (needs ImageMagick 7). Stops there, so you verify and land it yourself. |
+| `ready` | `/ready` | Reviews the current branch with `/code-review` at a depth matched to its risk (up to 3 rounds), fixes what the branch got wrong, rebases and tidies, and captures before/after proof with `before-after`. Stops there, so you verify and land it yourself. |
+| `before-after` | `/before-after` | Just the screenshots: shoots the working tree next to `main` (or a ref you name, like `HEAD`), with the differences boxed, and numbered when there are several (needs ImageMagick 7). No review or commits, so you can iterate before running `ready`. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. In Komla, it then trashes the workspace when nothing is left to do. |
 | `browser` | (automatic) | Lets agents drive a headless browser live with `playwright-cli`, or script it with Playwright, for screenshots and clicking through a flow. |
 | `desktop` | (automatic) | Lets agents run GUI apps on a virtual desktop you watch in Komla, with `komla desktop run`. |
@@ -28,8 +29,10 @@ to each other.
 Some skills call others. Install the ones they need too:
 
 - `implement` uses `ready`.
-- `ready` uses `land`, plus your agent's built-in code and security review
-  (`/code-review` and `/security-review` in Claude Code).
+- `ready` uses `land` and `before-after`, plus your agent's built-in code and
+  security review (`/code-review` and `/security-review` in Claude Code).
+- `before-after` uses `land` (for picking the base) and whichever of `browser`,
+  `electron`, or `desktop` fits the app.
 - `desktop` uses `browser`, and `electron` uses `browser` and `desktop`.
 - `modernize` refers to `land`.
 
