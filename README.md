@@ -70,8 +70,6 @@ this repo dropped, such as `~/.claude/skills/review-loop`.
 - For `desktop`: Komla (formerly Baton), with `tigervnc-standalone-server`,
   `novnc` and `websockify` on the machine.
 - For `electron`: `xvfb` on Linux machines without a display.
-- Optional: an authenticated [GitHub CLI](https://cli.github.com) (`gh`), so
-  `land` can watch CI on `main` after a push.
 
 ## Make them yours
 

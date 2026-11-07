@@ -149,10 +149,6 @@ Both refuse anything that is not a fast-forward. If one refuses before a push,
 `<base>` moved: go back to step 2. If one refuses after a push, stop and ask.
 Never use `git branch -f`, `git update-ref`, or `git reset` on `<base>`.
 
-If you pushed and the repo runs CI on `<base>`, watch the run for the pushed
-commit with `gh run watch`. If it fails, report it. Fix forward on a new
-branch. Never revert or rewrite `<base>` without asking.
-
 ## 8. Report
 
 Report the base branch, its new SHA, the commits that landed
@@ -171,7 +167,7 @@ for 7 days. Where `komla` is not on PATH yet, the CLI is still called
 
 - you stopped at step 5 without landing, or anything in steps 6 and 7 failed
   or is waiting on the user,
-- CI on `<base>` failed, or there is follow-up work, open questions, or
-  anything else left for this session,
+- there is follow-up work, open questions, or anything else left for this
+  session,
 - the user asked to keep the workspace, or
 - you are not running in Komla (neither CLI is on PATH).
