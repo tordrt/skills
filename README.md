@@ -13,7 +13,7 @@ adapted to how I work:
 | Skill | Say | What it does |
 |---|---|---|
 | `implement` | `/implement <what to build>` | Builds what you describe, then runs `ready` on it. |
-| `ready` | `/ready` | Reviews the current branch with `/code-review` at a depth matched to its risk (up to 3 rounds), fixes what the branch got wrong, rebases and tidies, and captures before/after proof. Stops there, so you verify and land it yourself. |
+| `ready` | `/ready` | Reviews the current branch with `/code-review` at a depth matched to its risk (up to 3 rounds), fixes what the branch got wrong, rebases and tidies, and captures before/after proof, with the differences boxed and numbered on comparison screenshots (needs ImageMagick 7). Stops there, so you verify and land it yourself. |
 | `land` | "land it" | Syncs `main`, rebases the branch, tidies its history, rechecks, and fast-forwards `main`. In Komla, it then trashes the workspace when nothing is left to do. |
 | `browser` | (automatic) | Lets agents drive a headless browser live with `playwright-cli`, or script it with Playwright, for screenshots and clicking through a flow. |
 | `desktop` | (automatic) | Lets agents run GUI apps on a virtual desktop you watch in Komla, with `komla desktop run`. |
