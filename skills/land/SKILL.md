@@ -159,4 +159,19 @@ Report the base branch, its new SHA, the commits that landed
 (`git log --oneline <old-base-sha>..<base>`), the checks you ran and their
 results, and whether `<base>` was pushed.
 
-Do not delete the branch or its worktree. The user cleans those up.
+Do not delete the branch or its worktree yourself.
+
+## 9. Trash the workspace
+
+If the branch landed and this session has no more work to do, run
+`komla trash` as your very last command, after the report. It moves this
+workspace to Komla's Trash once your turn ends, and the user can restore it
+for 7 days. Where `komla` is not on PATH yet, the CLI is still called
+`baton`. Skip this step when:
+
+- you stopped at step 5 without landing, or anything in steps 6 and 7 failed
+  or is waiting on the user,
+- CI on `<base>` failed, or there is follow-up work, open questions, or
+  anything else left for this session,
+- the user asked to keep the workspace, or
+- you are not running in Komla (neither CLI is on PATH).
