@@ -50,6 +50,6 @@ screenshots for proof.
    `before-after` describes, not changing code.
 6. **Hand off.** Report the branch and its commits, the review level and
    rounds, what review fixed, what was pre-existing and what you declined, the
-   checks, paths to the screenshots (marked and unmarked), what each box
-   shows, and how the user can run it. Say "land it" fast-forwards
-   `<base>` when the user is happy.
+   checks, the paths to the new side-by-sides in the shared `~/before-after/`
+   folder and what each box shows, and how the user can run it. Say "land
+   it" fast-forwards `<base>` when the user is happy.

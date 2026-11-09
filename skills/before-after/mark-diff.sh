@@ -9,6 +9,10 @@
 #   after-marked.png         region, numbered when there is more than one
 #   side-by-side.png         the two marked images next to each other
 #   mask.png                 white where pixels changed
+# Also copies side-by-side.png into one shared folder, $BEFORE_AFTER_DIR
+# (default ~/before-after), so every comparison sits together for browsing.
+# That folder holds only side-by-side images, named by SHOT_NAME (default:
+# the repo, branch, and time).
 # Prints one line per box, "<n> <WxH+X+Y>", top to bottom. Prints nothing
 # and draws no boxes when nothing changed.
 #
@@ -18,6 +22,8 @@
 #   MIN_AREA=25   regions smaller than this many pixels (after merging) are
 #                 dropped as noise
 #   COLOR=magenta box and number color
+#   BEFORE_AFTER_DIR=~/before-after  shared folder for side-by-sides
+#   SHOT_NAME=<name>  file name, without extension, in the shared folder
 #
 # Needs ImageMagick 7 (`magick`).
 set -euo pipefail
@@ -91,3 +97,17 @@ for name in before after; do
 done
 magick "$out/before-marked.png" -size 12x"$h" xc:white "$out/after-marked.png" \
   +append PNG24:"$out/side-by-side.png"
+
+# One folder with every side-by-side, so they can be browsed in a row.
+shared=${BEFORE_AFTER_DIR:-$HOME/before-after}
+if [ -z "${SHOT_NAME:-}" ]; then
+  repo=$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
+  branch=$(git branch --show-current 2>/dev/null || true)
+  SHOT_NAME="$repo${branch:+-$branch}-$(date +%Y%m%d-%H%M%S)"
+fi
+# Branch names may hold slashes, so keep only characters that are safe in a
+# file name.
+name=${SHOT_NAME//[^A-Za-z0-9._-]/_}
+mkdir -p "$shared"
+cp "$out/side-by-side.png" "$shared/$name.png"
+echo "shared: $shared/$name.png" >&2
