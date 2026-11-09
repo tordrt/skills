@@ -9,10 +9,10 @@ Show what a change looks like next to how it looked before, with each
 difference marked, so the user can iterate on it. This only takes pictures.
 Don't review, commit, rebase, or change code, unless the user asks.
 
-The deliverable is the side-by-sides in the shared folder `~/before-after/`
-(or `BEFORE_AFTER_DIR`). That folder holds only side-by-sides. Every other
-file is scratch: keep it in a temporary directory outside the repo, and don't
-report it to the user.
+The deliverable is a folder under `/tmp/before-after/` named after the branch.
+Use the same folder for each round of that change. Keep scratch files in a
+separate temporary directory outside the repo, and don't report them to the
+user.
 
 Invoking this skill is permission to run the app, drive a browser, and take
 screenshots.
@@ -46,9 +46,7 @@ shots are taken. Pick ports that don't clash with an app already running.
    needs ImageMagick 7. It pads the pair to one canvas, boxes each changed
    region on both padded copies (numbered when there are several), writes a
    side-by-side, keeps the unmarked copies, and prints each box. It
-   also copies the side-by-side into the shared folder `~/before-after/`
-   (set `BEFORE_AFTER_DIR` to change it), which holds only side-by-sides, so
-   they browse together. Give each run a `SHOT_NAME` that says what the shot
+   also copies the side-by-side into `BEFORE_AFTER_DIR`. Give each run a `SHOT_NAME` that says what the shot
    is, such as `<repo>-<branch>-<page>-<round>`. Its header lists the knobs
    for noise and for merging nearby changes.
    - When content only moved because something above it was added or
@@ -58,14 +56,15 @@ shots are taken. Pick ports that don't clash with an app already running.
    - A difference nothing in the change caused, such as rendering noise,
      means retaking the pair. After two retakes, raise the noise threshold or
      mask the region, and say so.
-4. **Report** the path to each new side-by-side in the shared folder, and
+4. **Report** the path to each new side-by-side in that change's folder, and
    what each box shows. Point out anything that looks unintended, but leave
    fixing it to the user, unless they ask.
 
 ## Next rounds
 
-When the user asks for new shots after more edits, retake only the after if
+When the user asks for new shots after more edits, use the same per-change
+folder and retake only the after if
 the before ref still points at the same commit and the shots, viewport, and
 state are unchanged. Reuse the earlier before shots (not the padded copies
 `mark-diff.sh` wrote). Each new side-by-side gets its own `SHOT_NAME`, so
-earlier ones in the shared folder stay put to compare.
+earlier shots from that change stay put to compare.
